@@ -13,6 +13,7 @@ class Solution {
         ListNode headNode = new ListNode(-1);
         ListNode resultNode = new ListNode(-1) ;
         headNode.next = resultNode;
+	 //判断是否存在一个链表长度大于另一个链表的长度
         while(l1!=null||l2!=null){
 			//如果当前节点为空，则默认此时的val为0，这样就不会报空指针异常了！
             int x = (l1 != null) ? l1.val : 0;
