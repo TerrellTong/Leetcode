@@ -1,41 +1,40 @@
  /*
 	算法思想：
-	动态规划
+	HashMap
  */
 class Solution {
-    public int findNumberOfLIS(int[] nums) {
-     int[] count = new int [nums.length];
-        int[] dp = new int [nums.length];
-        //用1填充数组
-        Arrays.fill(count,1);
-        for(int i=0;i<nums.length;i++){
-            for(int j=0;j<i;j++){
-                if(nums[i]>nums[j]){
-					//这个是max函数的表达形式，需要在这个过程中进行计数判断
-                    if(dp[i] <= dp[j]){
-                        dp[i] = dp[j] + 1;
-                        count[i] = count[j];
-                    }else if(dp[i] == dp[j] + 1){
-                        count[i] = count[i] + count[j];
-                    }
-                    }
+    public int countCharacters(String[] words, String chars) {
+        //定义一个HashMap存数据
+        Map<Character,Integer> map = new HashMap<Character,Integer>();
+        //将chars用map进行存放
+        for(int i=0;i<chars.length();i++){
+            if(map.containsKey(chars.charAt(i))){
+                int count = map.get(chars.charAt(i));
+                count++;
+                map.put(chars.charAt(i),count);
+            }else{
+                map.put(chars.charAt(i),1);
+            }
+        }
+        int res_length = 0;
+        //对words进行判别
+        for(int i=0;i<words.length;i++){
+    HashMap<Character,Integer> map_temp = (HashMap<Character, Integer>) ((HashMap<Character, Integer>) map).clone();
+            for(int j=0;j<words[i].length();j++){
+                if(map_temp.containsKey(words[i].charAt(j))){
+                    int count = map_temp.get(words[i].charAt(j));
+                    if(count == 0)
+                        break;
+                    count--;
+                    map_temp.put(words[i].charAt(j),count);
+                }else 
+                    break;
+                if(j == words[i].length()-1){
+                    res_length += words[i].length();
                 }
-
-            }
-
-        int max = 0;
-        for(int i=0;i<dp.length;i++){
-            if(max < dp[i])
-                max = dp[i];
-        }
-
-        int result = 0;
-        for(int i = 0; i <dp.length; i++){
-            if(max == dp[i]){
-                result += count[i];
             }
         }
-        return result;
-}
+        return res_length;
+    }
 }
 
