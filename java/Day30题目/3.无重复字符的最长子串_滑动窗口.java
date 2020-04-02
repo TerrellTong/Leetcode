@@ -1,30 +1,34 @@
 /*
 	算法思想：
-	 滑动窗口，用（Map）滑动窗口存储字符串不同的字符，比较特殊！
+	 滑动窗口，对于字符串的滑动窗口用set进行滑动，而不是用数组；
+	 因为set对于处理字符串有个contain方法，方便使用。
+	 滑动窗口是数组/字符串问题中常用的抽象概念。 窗口通常是在数组/字符串中由开始和结束索引定义的一系列元素的集合
 				
 */
 
-class Solution {
+public class Solution {
     public int lengthOfLongestSubstring(String s) {
-        if (s.length()==0) return 0;
-         //创建map窗口,i为左区间，j为右区间，右边界移动
-        Map<Character, Integer> map = new HashMap<>();
-        for (int j = 0, i = 0; j < n; j++) {
-            // 如果窗口中包含当前字符，
-            if (map.containsKey(s.charAt(j))) {
-                //左边界移动到 相同字符的下一个位置和i当前位置中更靠右的位置，这样是为了防止i向左移动
-                i = Math.max(map.get(s.charAt(j)), i);
+        int n = s.length();
+		//用set进行滑动窗口的存储，i是左边界，j是右边界
+        Set<Character> set = new HashSet<>();
+        int ans = 0, i = 0, j = 0;
+        while (i < n && j < n) {
+            // 不包含字符就j++（右移）
+            if (!set.contains(s.charAt(j))){
+                set.add(s.charAt(j++));
+				//将滑动窗口的大小与ans进行比较
+                ans = Math.max(ans, j - i);
             }
-            //比对当前无重复字段长度和储存的长度，选最大值并替换   ans是存储
-            //j-i+1是因为此时i,j索引仍处于不重复的位置，j还没有向后移动，取的[i,j]长度
-            ans = Math.max(ans, j - i + 1);
-            // 将当前字符为key，下一个索引为value放入map中
-            // value为j+1是为了当出现重复字符时，i直接跳到上个相同字符的下一个位置，if中取值就不用+1了
-            map.put(s.charAt(j), j+1);
+			//包含字符就i++（左移）
+            else {
+                set.remove(s.charAt(i++));
+            }
         }
         return ans;
     }
 }
+
+
 
 
 
