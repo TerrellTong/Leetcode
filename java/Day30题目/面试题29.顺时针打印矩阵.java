@@ -17,8 +17,7 @@ class Solution {
         int idx = 0;
         while(true){
             //从左向右遍历
-            if(++left > right)
-                break;
+
             for(int i=left;i<=right;i++)
                 res[idx++] = matrix[top][i];
 
@@ -39,6 +38,10 @@ class Solution {
                 break;
             for(int i=bottom;i>=top;i--)
                 res[idx++] = matrix[i][left];
+			
+			//必须写在这里，不然会出问题
+			if(++left > right)
+                break;
         }
         return res;
     }
