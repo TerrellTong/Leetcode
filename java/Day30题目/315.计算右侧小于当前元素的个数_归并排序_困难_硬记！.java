@@ -1,6 +1,6 @@
 /*
 	算法思想：
-		归并排序的思想，与求逆序数对的个数类似
+		归并排序的思想，与求逆序数对的个数类似(剑指offer51)
 
 https://blog.csdn.net/qq_36442947/article/details/81612870
 https://leetcode-cn.com/problems/count-of-smaller-numbers-after-self/solution/gui-bing-pai-xu-suo-yin-shu-zu-python-dai-ma-java-/
@@ -28,6 +28,7 @@ class Solution {
         //归并排序
         mergeSort(nums,0,nums.length-1);
 
+        //将res的值一个个的放入list
         for(int i=0;i<count.length;i++)
             res.add(count[i]);
 
@@ -44,11 +45,15 @@ class Solution {
     }
 
     public void merge(int[] a,int left,int mid,int right){
+        //真正操作的是索引，因此把索引的值先赋给temps
         for (int i = left;i <= right;i++) {
             temps[i] = index[i];
         }
 
         int ls=left , rs = mid+1, k=left; //ls,rs是检测指针，K是存放指针
+        //比较的时候比较的是索引数组对应的值，
+        //我们只需要把索引数组有序就可以了
+        //如果不理解可以看weiwei视频理解
         while(ls <= mid && rs<=right){
             if(a[index[ls]] <= a[index[rs]])
                 temps[k++] = index[rs++];
@@ -59,7 +64,7 @@ class Solution {
             }
         }
 
-        // 如果上序不满足，说明至少一边已经完全取完了，接下来只要依次把剩余的取完就好了
+        // 如果上边不满足，说明至少一边已经完全取完了，接下来只要依次把剩余的取完就好了
         // 如果左边还剩余，说明右边已经没有了。
         // 不管那一边还有剩余，都已经是这一边值最小的了，不需要加计数
         while(ls <= mid){
@@ -70,6 +75,7 @@ class Solution {
             temps[k++] = index[rs++];
         }
         // 把temps 在赋值给indexs,完成排序
+        //这样index对应的数组就是有序的了
         for (int i = left;i <= right;i++) {
             index[i] = temps[i];
         }
