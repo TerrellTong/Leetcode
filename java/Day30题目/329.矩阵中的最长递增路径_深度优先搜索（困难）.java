@@ -3,6 +3,7 @@
 		深度优先遍历
 
 	只需要让下一步的点 > 当前点的值，则进行下一步递归
+	此时的dfs后还要存储相关的数据，单个结点的路径！
 
 https://leetcode-cn.com/problems/longest-increasing-path-in-a-matrix/solution/ju-zhen-zhong-de-zui-chang-di-zeng-lu-jing-by-le-2/
 */
@@ -40,6 +41,8 @@ class Solution {
             //只需要下一步点的值，> 当前点的值，则进行下一步操作
             if (newRow >= 0 && newRow < rows && newColumn >= 0 && newColumn < cols && matrix[newRow][newColumn] > matrix[i][j])
 				//dfs(newRow, newColumn,matrix, visited) + 1 表明当前所代表的数组，路径长度+1
+				//此时的dfs后还要存储相关的数据，存储路径数据！！！
+				//将visied[i][j]的值与后面的节点的值进行相应的比较，找到这条路径的最大值
                 visited[i][j] = Math.max(visited[i][j], dfs(newRow, newColumn,matrix, visited) + 1);
         }
         return visited[i][j];
