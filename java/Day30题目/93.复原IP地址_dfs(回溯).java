@@ -3,6 +3,7 @@
 		回溯，通过dfs实现，与dfs不同的是dfs结束后，即往回走，需要撤销上一次的选择
 		
 		这就是回溯，在约束条件下，穷举所有节点，通常用于解决「找出所有可能的组合」类问题。
+		一个路径List，存放当前的遍历路径，一个结果list，存放满足条件的结果，然后回溯！
 		
 回溯的讲解：https://leetcode-cn.com/problems/permutations/solution/hui-su-suan-fa-python-dai-ma-java-dai-ma-by-liweiw/
 题目解析：https://leetcode-cn.com/problems/restore-ip-addresses/solution/2020041693medianhui-su-di-gui-fu-yuan-ip-di-zhi-by/
