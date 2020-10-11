@@ -37,7 +37,7 @@ class Solution {
         //状态转移
         for(int i=1;i<len;i++){
             for(int j=0;j<=target;j++){
-                //此时第i件物品，不选择
+                //此位置的含义不知道？？
                 dp[i][j] = dp[i-1][j];
                 if(nums[i] <= j)
                     dp[i][j] = dp[i-1][j] || dp[i-1][j-nums[i]];
