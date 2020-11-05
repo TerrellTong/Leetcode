@@ -42,3 +42,40 @@ class Solution {
         return list.toArray(new int[0][]);
     }
 }
+
+
+//按照自己的思路，模仿答案，完成了昨天自己的思路
+class Solution {
+    public int[][] insert(int[][] intervals, int[] newInterval) {
+        List<int[]> list = new ArrayList();
+        int left = newInterval[0];
+        int right = newInterval[1];
+        boolean placed =false; //标志新增区间插入到结果中
+        for(int i=0;i<intervals.length;i++){
+            int start = intervals[i][0];
+            int end = intervals[i][1];
+            //如果要插入的左端点大于当前区间的右端点，则将其加入list列表中
+            if(intervals[i][0] > right){
+				//如果没有把变换后的结果加入区间，说明可以加入区间
+                if(!placed){
+                    list.add(new int[]{left,right});
+                    placed = true;
+                }
+				//加入当前区间
+                list.add(new int[]{start,end});
+            }
+            //此时的右端点小于当前区间的左端点，说明不能插入
+            else if(intervals[i][1] < left){
+                list.add(new int[]{start,end});
+            }else{
+                //说明插入区间有交集
+                left = Math.min(left,start);
+                right = Math.max(right,end);
+            }
+        }
+
+        if(!placed)
+            list.add(new int[]{left,right});
+        return list.toArray(new int[0][]);
+    }
+}
