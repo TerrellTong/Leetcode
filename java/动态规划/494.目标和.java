@@ -1,8 +1,14 @@
 /*
 	算法思想：
-		从一个点开始，然后依次走到下一个结点，判断是否能回到原点！！！
+		当int[][] 数组无法满足记忆化的时候，我们可以采用map作为memo
+		其key为，用把「状态」转化为字符串作为哈希表的键，这是一个常用的小技巧。
+		这题的状态是第i个位置的结果为S的个数和
+		
+		我按照自己的习惯，写了for，其实这题不需要写for循环！！！因为子问题已经被穷举了出来，就只有+,-两种情况！！！
+		
+		我自己写的时候，只用了一维数组，所以结果出现了问题！！
 	
-题解：https://leetcode-cn.com/problems/gas-station/solution/xiang-xi-tong-su-de-si-lu-fen-xi-duo-jie-fa-by--30/
+题解：https://leetcode-cn.com/problems/target-sum/solution/dong-tai-gui-hua-he-hui-su-suan-fa-dao-di-shui-shi/
 */
 
 class Solution {
