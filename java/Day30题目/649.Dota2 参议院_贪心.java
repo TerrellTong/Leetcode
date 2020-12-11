@@ -1,6 +1,8 @@
 /*
 	算法思想：
 		贪心，每次都让地方人失去投票权！！
+		自己尝试过，成功了大部分
+		不知道一轮后平票后如何解决！！
 		
 题解：https://leetcode-cn.com/problems/dota2-senate/solution/dota2-can-yi-yuan-by-leetcode-solution-jb7l/
 */
