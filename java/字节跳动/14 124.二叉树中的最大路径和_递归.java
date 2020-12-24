@@ -37,6 +37,7 @@ class Solution {
         int leftMax  = Math.max(0, dfs(root.left));         // 左孩子贡献
         int rightMax = Math.max(0, dfs(root.right));        // 右孩子贡献
         res = Math.max(res, root.val + leftMax + rightMax); // 更新res
+		// 返回经过root的单边最大分支给当前root的父节点计算使用
         return root.val + Math.max(leftMax, rightMax);      // 返回当前节点的总贡献
     }
 
