@@ -4,47 +4,44 @@
 */
 
 class Solution {
-    /**
-     * 85. 最大矩形 
-     */
     public int maximalRectangle(char[][] matrix) {
-        if (matrix.length == 0 || matrix[0].length == 0) {
+        int row = matrix.length;
+        if(row == 0)
             return 0;
-        }
-        int col = matrix.length;
-        int row = matrix[0].length;
-        int[] heights = new int[row];
-        int ans = 0;
-        for (int i = 0; i < col; i++) {
-            for (int j = 0; j < row; j++) {
-                if (matrix[i][j] == '1') {
-                    heights[j] += 1;
-                } else {
-                    heights[j] = 0;
-                }
+        int col = matrix[0].length;
+        int maxArea = 0;
+        //渐进累积到最后一层
+        int[] height = new int[col];
+        for(int i=0;i<row;i++){
+            for(int j=0;j<col;j++){
+                //渐进累积到最后一层，因此当为1的时候不能只是赋值为1
+                if(matrix[i][j] == '1')
+                    height[j] += 1;
+                else
+                    height[j] = 0;
             }
-            ans = Math.max(ans, largestRectangleArea(heights)); //分别求前一层、两层、三层...最大面积
+            maxArea = Math.max(maxArea,largestRectangleArea(height));
         }
-        return ans;
+        return maxArea;
     }
+	//84题解：https://leetcode-cn.com/problems/largest-rectangle-in-histogram/solution/bao-li-jie-fa-zhan-by-liweiwei1419/
+    public int largestRectangleArea(int[] height){
+        int sum = 0;
+        for(int i=0;i<height.length;i++){
+            int curHeight = height[i];
+            int left = i;
+            // 找左边最后 1 个大于等于 heights[i] 的下标
+            while(left > 0 && height[left-1] >= curHeight){
+                left--;
+            }
 
-    /**
-     * 84. 柱状图中最大的矩形
-     */
-   public int largestRectangleArea(int[] heights) {
-        int area = 0, len = heights.length;
-        for (int i = 0; i < heights.length ; i++) {
-            int w = 1, h = heights[i], j = i;
-            while ( --j >= 0 && heights[j] >= h) { //找i的左边高度大于h的连续个数,注意边界
-                w++;
-            }
-            j = i ;// 找i的右边高度大于h的连续个数
-            while ( ++j < len && heights[j] >= h) {
-                w++;
-            }
-            area = Math.max(area, w * heights[i]);
+            int right = i;
+            while(right < height.length-1 && height[right+1] >= curHeight)
+                right++;
+            // int cursum = 
+            sum = Math.max(sum,(right-left+1)*curHeight);
         }
-        return area;
+        return sum;
     }
 }
 
