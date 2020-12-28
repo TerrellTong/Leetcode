@@ -2,6 +2,11 @@
 	算法思想：
 		动态规划，III和IV可以归为一类！！将k=3放到III中即可！
 		
+	注意：
+		如果当天买入股票的时候记录「交易发生一次」，如果当天卖出股票，不增加交易次数；
+		
+题解：https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/solution/dong-tai-gui-hua-by-liweiwei1419-4/
+		
 */
 
 class Solution {
