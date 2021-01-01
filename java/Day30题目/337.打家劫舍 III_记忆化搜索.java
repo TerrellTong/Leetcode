@@ -41,3 +41,38 @@ class Solution {
         return result;
     }
 }
+
+//详细一点
+class Solution {
+    Map<TreeNode,Integer> map = new HashMap();
+    public int rob(TreeNode root) {
+        return tryRob(root);
+    }
+
+    public int tryRob(TreeNode root){
+        if(root == null)
+            return 0;
+        
+        if(map.containsKey(root))
+            return map.get(root);
+
+        int money = root.val;
+        int leftSum = 0;
+        int rightSum = 0;
+
+        if(root.left != null){
+            //比较偷孙子,
+            leftSum =  tryRob(root.left.left) + tryRob(root.left.right);
+        }
+        if(root.right != null){
+            rightSum =  tryRob(root.right.left) + tryRob(root.right.right);
+        }
+        //偷孙子和当前结点
+        int grandSon = money+leftSum+rightSum;
+        int son = tryRob(root.left) + tryRob(root.right);
+        //从孙子和偷儿子中，选择最大的
+        int res  = Math.max(grandSon,son);
+        map.put(root,res);
+        return res;
+    }
+}
