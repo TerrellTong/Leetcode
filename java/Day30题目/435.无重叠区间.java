@@ -6,6 +6,8 @@
 
 				如果遇到覆盖，就肯定需要删除一个区间，同时更新指针，因为需要尽可能不会与后面的区间再产生重叠，所以需要保留区间小的；
 				如果没有覆盖，那么将指针更新为当前区间。
+				
+				先讨论没有覆盖的情况，再讨论覆盖的情况！！
 
 作者：lippon
 链接：https://leetcode-cn.com/problems/non-overlapping-intervals/solution/java-chang-gui-de-qu-jian-wen-ti-jie-jue-qdxv/
@@ -31,14 +33,18 @@ class Solution {
         for(int i=1;i<intervals.length;i++){
             int curLeft = intervals[i][0];
             int curRight = intervals[i][1];
-            //如果当前区间大于上一个区间的右边，则count++
-            if(curLeft < right){
+            //没有重叠
+            if(curLeft >= right){
+                left = curLeft;
+                right = curRight;
+            }else if(curRight <= left){
+                left = curLeft;
+                right = curRight;
+            } else{
+                //如果当前区间大于上一个区间的右边，则count++，存在重叠
                 count++;
                 //右边进行更新,保留长度小的区间，这样就尽可能不会与后面的区间再次重叠
                 right = Math.min(curRight,right);
-            }else{
-                left = curLeft;
-                right = curRight;
             }
         }
         return count;
