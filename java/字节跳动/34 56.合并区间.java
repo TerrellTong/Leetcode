@@ -81,3 +81,44 @@ class Solution {
         return res.toArray(new int[0][]);
     }
 }
+
+//二刷发现了新问题，添加时出了问题，记住，left，right为上一个区间的左右值！！
+class Solution {
+    public int[][] merge(int[][] intervals) {
+        //排序
+        Arrays.sort(intervals, new Comparator<int[]>(){
+            @Override
+            public int compare(int[] a,int[] b){
+                //按照从最左边排序
+                return a[0]-b[0];
+            }
+        });
+
+        int left = intervals[0][0];
+        int right = intervals[0][1];
+
+        List<int[]> list = new ArrayList();
+        // boolean placed = true;
+
+        for(int i=1;i<intervals.length;i++){
+            int curLeft = intervals[i][0];
+            int curRight = intervals[i][1];
+
+            //判断不是重叠的时候
+            if(curLeft > right || curRight < left){
+                //不重叠，我们要叠加上一个区间，不是当前区间！！
+                list.add(new int[]{left,right});
+                //将上一个区间的curLeft置为left，curRight置为right
+                left = curLeft;
+                right = curRight;
+            }else{
+                //出现重叠
+                left = Math.min(left,curLeft);
+                right = Math.max(right,curRight);
+            }
+        }
+
+        list.add(new int[]{left,right});
+        return list.toArray(new int[0][]);
+    }
+}
