@@ -79,3 +79,54 @@ class Solution {
         return list.toArray(new int[0][]);
     }
 }
+
+//新的心得体会
+class Solution {
+    public int[][] insert(int[][] intervals, int[] newInterval) {
+        Arrays.sort(intervals,new Comparator<int[]>(){
+            @Override
+            public int compare(int[] a,int []b){
+                return a[0] - b[0];
+            }
+        });
+        List<int[]> res = new ArrayList();
+        
+        //left，right为待插入的区间左右值
+        int left = newInterval[0];
+        int right = newInterval[1];
+          boolean placed =false; //标志新增区间插入到结果中
+
+        for(int i=0;i<intervals.length;i++){
+            //获取当前区间的值
+            int curLeft = intervals[i][0];
+            int curRight = intervals[i][1];
+            //独立
+            if(curLeft > right){
+                //如果没有把变换后的结果加入区间，说明可以加入区间，只有当curLeft>right才能将区间插入！！
+                if(!placed){
+                    res.add(new int[]{left,right});
+                    placed = true;
+                }
+                res.add(intervals[i]);
+            }else if(curRight < left){
+				//如果将两个写到一起（即当前右边 < left,也会添加到res），就会[3,5]没有被插入的情况！！
+				/*
+					[[1,2],[3,5],[6,7],[8,10],[12,16]]
+					[4,8]
+					这样的情况！！！ 
+				*/
+                res.add(intervals[i]);
+            }else{
+                //有交集
+                left = Math.min(left,curLeft);
+                right = Math.max(right,curRight);
+            }
+        }
+        //如果没有把变换后的结果加入区间，说明可以加入区间
+                if(!placed){
+                    res.add(new int[]{left,right});
+                    placed = true;
+                }
+        return res.toArray(new int[0][]);
+    }
+}
