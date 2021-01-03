@@ -38,6 +38,7 @@ class Solution {
                 continue;
             sum += candidates[i];
             cur.add(candidates[i]);
+			// 注意：由于每一个元素只能使用一次，下一轮搜索的起点为i+1,与39区别开来
             dfs(i+1,candidates,target,cur,sum);
             sum -= candidates[i];
             cur.remove(cur.size()-1);
