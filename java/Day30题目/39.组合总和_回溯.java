@@ -34,6 +34,7 @@ class Solution {
         for(int i=begin;i<candidates.length;i++){
             cur.add(candidates[i]);
             sum += candidates[i];
+			// 注意：由于每一个元素可以重复使用，下一轮搜索的起点依然是 i，这里非常容易弄错
             dfs(candidates,target,cur,sum,i);
             sum -= candidates[i];
             cur.remove(cur.size()-1);
