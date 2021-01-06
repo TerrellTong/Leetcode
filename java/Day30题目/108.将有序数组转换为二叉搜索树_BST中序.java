@@ -29,6 +29,34 @@ class Solution {
         return root;
     }
 }
+
+//按照自己的思路也可以实现，代码执行结果不一样不要紧！！
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public TreeNode sortedArrayToBST(int[] nums) {
+        //二叉搜索树的特点，中序遍历是一个有序集合，nums就是给定的中序遍历
+        return dfs(nums,0,nums.length-1);
+    }
+
+    public TreeNode dfs(int[] nums,int left,int right){
+        if(left > right)
+            return null;
+        
+        int mid = (left + right) >>> 1;
+        TreeNode root = new TreeNode(nums[mid]);
+        root.left = dfs(nums,left,mid-1);
+        root.right = dfs(nums,mid+1,right);
+        return root;
+    }
+}
     
 
 
