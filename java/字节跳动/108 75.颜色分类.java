@@ -31,3 +31,36 @@ class Solution {
         }
     }
 }
+
+//左神思想，分成三个区域，与此同时，对cur进行判断，如果满足条件，则放到对应区域的后一个位置/前一个位置！
+class Solution {
+    public void sortColors(int[] nums) {
+        //根据左神基础班2的感悟
+        int left = 0;
+        int right = nums.length-1;
+        //此时的less表示0区域的终止位置
+        //此时的more表示2区域的起始位置
+        int less = left-1;
+        int more = right+1;
+        //表示起始的位置
+        int cur = 0;
+        //只要cur不大于more，就一直循环
+        while(cur<more){
+            if(nums[cur] == 0){
+                //cur与less区域的下一个交换
+                swap(nums,++less,cur++);
+            }else if(nums[cur] == 2){
+                //cur交换到more区域的上一个区域
+                //此时cur不能++，因为cur交换到了待定区域，有可能交换的是0/1，不确定！
+                swap(nums,--more,cur);
+            }else
+                cur++;
+        }
+    }
+
+    public void swap(int[] nums,int i,int j){
+        int t = nums[i];
+        nums[i] = nums[j];
+        nums[j] = t;
+    }
+}
