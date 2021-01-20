@@ -1,40 +1,58 @@
 /*
 	算法思想：
-		如果两个字符串的长度是n1,n2，那么其相乘的结果最大长度不会超过n1+n2！
-		我们直接将结果放入数组即可
-		其第一位（进位）位于 res[i+j]，第二位（应在的位置）位于 res[i+j+1]。
+		对于遇到左括号，需要从下一个索引开始递归！特别处理！！
+		非数值位时，将缓存值根据操作符进行计算并置零缓存;
 		
-		之前的每日一题，还是不会！！
+		遇到右括号, 记录阶段计算的值, 并跳过本阶段(括号范围)的索引;
+		尾部时缓存位不为0则计算最终结果。
+		
+		可以参考基本计算器II
 	
-题解：https://leetcode-cn.com/problems/multiply-strings/solution/you-hua-ban-shu-shi-da-bai-994-by-breezean/
+题解：https://leetcode-cn.com/problems/basic-calculator/solution/zhu-yi-jiao-biao-izai-jin-ru-di-gui-shi-z3sl6/
+解题思路 https://leetcode-cn.com/problems/basic-calculator/solution/2ms-100382-9821-by-getouo-39zo/
 	
 */
 
 class Solution {
-    public String multiply(String num1, String num2) {
-        if(num1.equals("0") || num2.equals("0"))
-            return "0";
-        StringBuilder sb = new StringBuilder();
+    public int calculate(String s) {
+        return help(s);
+    }
 
-        int m = num1.length();
-        int n = num2.length();
-        int[] c = new int[m+n];
-        //模拟字符串相乘
-        for(int i=num1.length()-1;i>=0;i--){
-            int curi = num1.charAt(i)-'0';
-            for(int j=num2.length()-1;j>=0;j--){
-                    int curj = num2.charAt(j)-'0';
-                    int res = curi * curj + c[i+j+1];
-                    //第一位位于c[i+j]，第二位位于c[i+j+1]
-                    c[i+j+1] = res % 10;
-                    c[i+j] += res / 10;
+    int i = 0;//全局变量，因为字符串S中的位置
+    public int help(String s){
+        int num = 0;
+        char LastOp = '+';
+        Stack<Integer> stack = new Stack();
+        while(i < s.length()){
+            char cur = s.charAt(i);
+            if(Character.isDigit(cur)){
+                num = 10 * num + cur - '0';
             }
+            if(cur == '('){
+                i++;
+                num = help(s);
+            }
+            
+            if((!Character.isDigit(cur) && cur!= ' ') || i== s.length()-1){
+                if(LastOp == '+')
+                    stack.push(num);
+                else if(LastOp == '-')
+                    stack.push(-num);
+                num = 0;
+                LastOp = cur;
+            }
+            //必须要放到后面，因为要将最后一个括号前的数字，压入栈中
+            if(cur == ')')
+                return sum(stack);
+            i++;
         }
-        for(int i=0;i<c.length;i++){
-            if(i==0 && c[i] == 0)
-                continue;
-            sb.append(c[i]);
-        }
-        return sb.toString();
+        return sum(stack);
+    }
+
+    public int sum(Stack number){
+        int res = 0;
+        while(!number.isEmpty())
+            res += (int)number.pop();
+        return res;
     }
 }
